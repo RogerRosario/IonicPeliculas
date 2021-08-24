@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Pelicula } from '../../interfaces/interfaces';
 import { ModalController } from '@ionic/angular';
 import { DetalleComponent } from '../detalle/detalle.component';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-slideshow-poster',
@@ -11,9 +12,10 @@ import { DetalleComponent } from '../detalle/detalle.component';
 export class SlideshowPosterComponent implements OnInit {
 
   @Input() peliculas: Pelicula[];
+  @Output() refrescarLista = new EventEmitter<string>();
 
   slidesOpts = {
-    slidesPerView: 3.3,
+    slidesPerView: 3.2,
     freeMode: false
   };
   
@@ -21,7 +23,7 @@ export class SlideshowPosterComponent implements OnInit {
 
   ngOnInit() {}
   
-  async verDetalle(id: string){
+  async verDetalle(id){
     
     const modal = await this.modalCrtl.create({
       component: DetalleComponent,
@@ -29,7 +31,10 @@ export class SlideshowPosterComponent implements OnInit {
         id
       }
     });
-    modal.present();
+
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    this.refrescarLista.emit(data.existe);
   
   }
 }

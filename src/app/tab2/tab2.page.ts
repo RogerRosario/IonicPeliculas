@@ -14,13 +14,13 @@ export class Tab2Page {
   textoBuscar = '';
   buscando = false;
   peliculas: Pelicula[] = [];
-  ideas: string[] = ['Suicide Squad','Mortal Kombat','Avengers','Origen','Batman'];
+  ideas: string[] = ['Suicide Squad','Mortal Kombat','Avengers','Inception','Batman', 'Spiderman'];
   
 
   constructor(private moviesService: MoviesService,
               private modalCrtl: ModalController) {}
 
-  async verDetalle(id: string){
+  async verDetalle(id){
     const modal = await this.modalCrtl.create({
       component: DetalleComponent,
       componentProps: {
